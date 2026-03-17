@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRU Digital Market | ตลาดซื้อขายนักศึกษา</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="authView" class="view">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2>🌙 CRU Market</h2>
+                <p id="authSubtitle">แพลตฟอร์มซื้อขายสำหรับชาวจันทรเกษม</p>
+            </div>
+            <div class="auth-body">
+                <input type="email" id="emailInp" placeholder="อีเมลนักศึกษา (@chandra.ac.th)">
+                <input type="password" id="passInp" placeholder="รหัสผ่าน">
+                <button onclick="handleAuth()" id="authBtn" class="btn-primary">เข้าสู่ระบบ</button>
+                <div class="auth-footer">
+                    <span id="toggleText">ยังไม่มีบัญชี?</span> 
+                    <button onclick="toggleAuthMode()" id="toggleBtn" class="btn-link">สมัครสมาชิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="appView" class="view" style="display: none;">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">CRU <span>Digital Market</span></div>
+                <div class="nav-actions">
+                    <button class="btn-accent" onclick="openModal('postModal')">+ ลงประกาศใหม่</button>
+                    <button class="btn-logout" onclick="logout()">ออกจากระบบ</button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="main-layout">
+            <aside class="sidebar">
+                <h3>คณะ / สาขา</h3>
+                <ul id="catFilter">
+                    <li class="active" onclick="filterCat('ทั้งหมด')">ทั้งหมด</li>
+                    <li onclick="filterCat('วิทยาศาสตร์')">วิทยาศาสตร์</li>
+                    <li onclick="filterCat('วิทยาการจัดการ')">วิทยาการจัดการ</li>
+                    <li onclick="filterCat('มนุษยศาสตร์')">มนุษยศาสตร์</li>
+                    <li onclick="filterCat('ศึกษาศาสตร์')">ศึกษาศาสตร์</li>
+                </ul>
+            </aside>
+
+            <main class="content">
+                <div id="productGrid" class="product-grid">
+                    </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <h3>📢 ลงประกาศใหม่</h3>
+            <input type="text" id="pTitle" placeholder="ชื่อสินค้า/รายการ">
+            <select id="pCat">
+                <option value="ทั่วไป">เลือกหมวดหมู่</option>
+                <option value="วิทยาศาสตร์">วิทยาศาสตร์</option>
+                <option value="วิทยาการจัดการ">วิทยาการจัดการ</option>
+                <option value="มนุษยศาสตร์">มนุษยศาสตร์</option>
+                <option value="ศึกษาศาสตร์">ศึกษาศาสตร์</option>
+            </select>
+            
+            <div class="split-calc-box">
+                <label>ระบบคำนวณราคา (ตั้งหารได้)</label>
+                <div class="row">
+                    <input type="number" id="pTotal" placeholder="ราคารวม (บาท)" oninput="calcSplit()">
+                    <input type="number" id="pCount" placeholder="จำนวนคนหาร" value="1" oninput="calcSplit()">
+                </div>
+                <div id="splitResult" class="split-info">ยอดต่อคน: ฿0.00</div>
+            </div>
+
+            <textarea id="pDesc" placeholder="รายละเอียดสินค้า/นัดรับ..."></textarea>
+            <div class="modal-footer">
+                <button onclick="closeModal('postModal')" class="btn-secondary">ยกเลิก</button>
+                <button onclick="savePost()" class="btn-primary">ยืนยันโพสต์</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="chatBox" class="chat-float" style="display: none;">
+        <div class="chat-header">
+            <span id="chatWith">แชท</span>
+            <button onclick="closeChat()">×</button>
+        </div>
+        <div id="msgDisplay" class="chat-body"></div>
+        <div class="chat-input-group">
+            <input type="text" id="msgInp" placeholder="พิมพ์ข้อความ...">
+            <button onclick="sendMsg()">ส่ง</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
